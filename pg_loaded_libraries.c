@@ -14,25 +14,25 @@ PG_FUNCTION_INFO_V1(pg_loaded_libraries);
 
 void _PG_init(void)
 {
-    /* ... C code here at time of extension loading ... */
+	/* ... C code here at time of extension loading ... */
 }
 
 void _PG_fini(void)
 {
-    /* ... C code here at time of extension unloading ... */
+	/* ... C code here at time of extension unloading ... */
 }
 
 Datum pg_loaded_libraries(PG_FUNCTION_ARGS)
 {
-    ReturnSetInfo * rsinfo = (ReturnSetInfo *)fcinfo->resultinfo;
+	ReturnSetInfo * rsinfo = (ReturnSetInfo *)fcinfo->resultinfo;
 	bool		randomAccess;
 	TupleDesc	tupdesc;
 	Tuplestorestate *tupstore;
 	AttInMetadata *attinmeta;
-    MemoryContext oldcontext;
-    Size datsize;
+	MemoryContext oldcontext;
+	Size datsize;
 
-  	/* check to see if caller supports us returning a tuplestore */
+	/* check to see if caller supports us returning a tuplestore */
 	if (rsinfo == NULL || !IsA(rsinfo, ReturnSetInfo))
 		ereport(ERROR,
 				(errcode(ERRCODE_FEATURE_NOT_SUPPORTED),
@@ -58,20 +58,20 @@ Datum pg_loaded_libraries(PG_FUNCTION_ARGS)
 
 	MemoryContextSwitchTo(oldcontext);
 
-    datsize = EstimateLibraryStateSpace();
+	datsize = EstimateLibraryStateSpace();
 
-    if (datsize) {
-        char *space;
-        HeapTuple tuple;
+	if (datsize) {
+		char *space;
+		HeapTuple tuple;
         
-        space = palloc(datsize);
-        SerializeLibraryState(datsize, space);
+		space = palloc(datsize);
+		SerializeLibraryState(datsize, space);
 
-        while (*space) {
-            tuple = BuildTupleFromCStrings(attinmeta, &space);
-            tuplestore_puttuple(tupstore, tuple);
-            space += strlen(space);
-        }
-    }
-    PG_RETURN_NULL();
+		while (*space) {
+			tuple = BuildTupleFromCStrings(attinmeta, &space);
+			tuplestore_puttuple(tupstore, tuple);
+			space += strlen(space);
+		}
+	}
+	PG_RETURN_NULL();
 }
