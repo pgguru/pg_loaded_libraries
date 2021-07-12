@@ -1,0 +1,4 @@
+comment = 'Show the loaded libraries in a backend'
+default_version = '0.0.1'
+relocatable = true
+module_pathname = '$libdir/pg_loaded_libraries'

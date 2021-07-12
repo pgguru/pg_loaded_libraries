@@ -1,0 +1,3 @@
+CREATE FUNCTION pg_loaded_libraries()
+RETURNS SETOF text AS 'MODULE_PATHNAME', 'pg_loaded_libraries'
+LANGUAGE C STRICT VOLATILE;
