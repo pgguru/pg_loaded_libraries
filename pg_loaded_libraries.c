@@ -70,7 +70,7 @@ Datum pg_loaded_libraries(PG_FUNCTION_ARGS)
 		while (*space) {
 			tuple = BuildTupleFromCStrings(attinmeta, &space);
 			tuplestore_puttuple(tupstore, tuple);
-			space += strlen(space);
+			space += strlen(space) + 1; /* skip the null byte too; terminated by extra \0 */
 		}
 	}
 	PG_RETURN_NULL();
